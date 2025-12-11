@@ -8,7 +8,16 @@
 import UIKit
 
 class SignInViewController: UIViewController {
-    var onChangeMain: (() -> Void)?
+    private let viewModel: SignInViewModel
+    
+    init(viewModel: SignInViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let label: UILabel = {
         let label = UILabel()
@@ -48,6 +57,6 @@ class SignInViewController: UIViewController {
     }
     
     @objc private func buttonTapped() {
-        onChangeMain?()
+        viewModel.send(.buttonTapped)
     }
 }

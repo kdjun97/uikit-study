@@ -29,12 +29,22 @@ private extension AppCoordinator {
 
         rootNavigationController.start()
     }
+    
+    func showSignInForRoot() {
+        let rootNavigationController = RootNavigationController()
+        rootNavigationController.onChangeMainFlow = { [weak self] in
+            self?.changeMainFlow()
+        }
+        window.rootViewController = rootNavigationController
+
+        rootNavigationController.startWithSignIn()
+    }
 
     func changeMainFlow() {
         let mainNavigationController = MainNavigationController()
         mainNavigationController.onChangeRootFlow = { [weak self] in
             guard let self = self else { return }
-            showRoot()
+            showSignInForRoot()
         }
         window.rootViewController = mainNavigationController
         

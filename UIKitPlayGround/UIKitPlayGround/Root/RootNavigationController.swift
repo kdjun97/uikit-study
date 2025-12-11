@@ -18,24 +18,40 @@ class RootNavigationController: UINavigationController {
     func start() {
         showSplash()
     }
+    
+    func startWithSignIn() {
+        showSignIn()
+    }
 }
 
 private extension RootNavigationController {
     func showSplash() {
-        let splashViewController = SplashViewController()
-        splashViewController.onChangeSignIn = { [weak self] in
+        let viewModel = SplashViewModel() // 나중에 DI
+        let splashViewController = SplashViewController(viewModel: viewModel)
+        
+        viewModel.onOutput = { [weak self] output in
             guard let self = self else { return }
-            self.showSignIn()
+            switch output {
+            case .onChangeSignIn:
+                self.showSignIn()
+            }
         }
+        
         setViewControllers([splashViewController], animated: false)
     }
 
     func showSignIn() {
-        let signInViewController = SignInViewController()
-        signInViewController.onChangeMain = { [weak self] in
+        let viewModel = SignInViewModel()
+        let signInViewController = SignInViewController(viewModel: viewModel)
+        
+        viewModel.onOutput = { [weak self] output in
             guard let self = self else { return }
-            self.onChangeMainFlow?()
+            switch output {
+            case .onChangeMainFlow:
+                self.onChangeMainFlow?()
+            }
         }
+        
         setViewControllers([signInViewController], animated: false)
     }
 }
