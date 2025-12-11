@@ -8,31 +8,34 @@
 import UIKit
 
 class RootNavigationController: UINavigationController {
+    var onChangeMainFlow: (() -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         isNavigationBarHidden = true
     }
+    
+    func start() {
+        showSplash()
+    }
+}
 
+private extension RootNavigationController {
     func showSplash() {
-        let vc = SplashViewController()
-        vc.onChangeSignIn = { [weak self] in
+        let splashViewController = SplashViewController()
+        splashViewController.onChangeSignIn = { [weak self] in
             guard let self = self else { return }
             self.showSignIn()
         }
-        setViewControllers([vc], animated: false)
+        setViewControllers([splashViewController], animated: false)
     }
 
     func showSignIn() {
-        let vc = SignInViewController()
-        vc.onChangeMain = { [weak self] in
+        let signInViewController = SignInViewController()
+        signInViewController.onChangeMain = { [weak self] in
             guard let self = self else { return }
-            self.showMain()
+            self.onChangeMainFlow?()
         }
-        setViewControllers([vc], animated: false)
-    }
-
-    func showMain() {
-        let vc = MainViewController()
-        setViewControllers([vc], animated: false)
+        setViewControllers([signInViewController], animated: false)
     }
 }

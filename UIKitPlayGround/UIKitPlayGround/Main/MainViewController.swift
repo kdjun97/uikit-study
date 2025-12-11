@@ -8,10 +8,13 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    var onLogout: (() -> Void)?
+    
     private let label: UILabel = {
         let label = UILabel()
         label.text = "MainViewController"
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
 
         return label
     }()
@@ -24,8 +27,10 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
+        view.backgroundColor = .black
         setupLayout()
+        
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
     }
     
     private func setupLayout() {
@@ -41,5 +46,9 @@ class MainViewController: UIViewController {
             logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoutButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20)
         ])
+    }
+    
+    @objc private func logoutButtonTapped() {
+        onLogout?()
     }
 }
