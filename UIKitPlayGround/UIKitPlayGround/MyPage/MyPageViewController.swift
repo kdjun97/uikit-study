@@ -1,18 +1,27 @@
 //
-//  MainViewController.swift
+//  MyPageViewController.swift
 //  UIKitPlayGround
 //
-//  Created by 김동준 on 12/9/25
+//  Created by 김동준 on 12/11/25
 //
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MyPageViewController: UIViewController {
     var onLogout: (() -> Void)?
+    
+    init(onLogout: (() -> Void)? = nil) {
+        self.onLogout = onLogout
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let label: UILabel = {
         let label = UILabel()
-        label.text = "MainViewController"
+        label.text = "MyPageViewController"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
 
@@ -27,7 +36,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
+        view.backgroundColor = .green
         setupLayout()
         
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)

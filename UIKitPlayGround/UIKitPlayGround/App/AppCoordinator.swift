@@ -41,13 +41,13 @@ private extension AppCoordinator {
     }
 
     func changeMainFlow() {
-        let mainNavigationController = MainNavigationController()
-        mainNavigationController.onChangeRootFlow = { [weak self] in
+        let mainTabBarController = MainTabBarController()
+        mainTabBarController.onChangeRootFlow = { [weak self] in
             guard let self = self else { return }
             showSignInForRoot()
         }
-        window.rootViewController = mainNavigationController
+        window.rootViewController = mainTabBarController
         
-        mainNavigationController.start()
+        mainTabBarController.start()
     }
 }
