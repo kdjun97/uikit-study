@@ -9,7 +9,7 @@ import UIKit
 
 final class RootCoordinator: BaseCoordinator {
     private let navigationController: UINavigationController
-    var onChangeMainFlow: (() -> Void)?
+    weak var delegate: RootCoordinatorDelegate?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -24,32 +24,34 @@ final class RootCoordinator: BaseCoordinator {
     }
     
     private func showSplash() {
-        let viewModel = SplashViewModel() // 나중에 DI
-        let splashViewController = SplashViewController(viewModel: viewModel)
-        
-        viewModel.onOutput = { [weak self] output in
-            guard let self = self else { return }
-            switch output {
-            case .onChangeSignIn:
-                self.showSignIn()
-            }
-        }
-        
-        navigationController.setViewControllers([splashViewController], animated: false)
+        let splashCoordinator = SplashCoordinator(navigationController: navigationController)
+        splashCoordinator.delegate = self
+        addChild(splashCoordinator)
+        splashCoordinator.start()
     }
     
     private func showSignIn() {
-        let viewModel = SignInViewModel()
-        let signInViewController = SignInViewController(viewModel: viewModel)
-        
-        viewModel.onOutput = { [weak self] output in
-            guard let self = self else { return }
-            switch output {
-            case .onChangeMainFlow:
-                self.onChangeMainFlow?()
-            }
-        }
-        
-        navigationController.setViewControllers([signInViewController], animated: false)
+        let signInCoordinator = SignInCoordinator(navigationController: navigationController)
+        signInCoordinator.delegate = self
+        addChild(signInCoordinator)
+        signInCoordinator.start()
+    }
+}
+
+protocol RootCoordinatorDelegate: AnyObject {
+    func onDidLogIn(_ coordinator: RootCoordinator)
+}
+
+extension RootCoordinator: SignInCoordinatorDelegate {
+    func onDidLogIn(_ coordinator: SignInCoordinator) {
+        removeChild(coordinator)
+        delegate?.onDidLogIn(self)
+    }
+}
+
+extension RootCoordinator: SplashCoordinatorDelegate {
+    func onDidChangeSignIn(_ coordinator: SplashCoordinator) {
+        removeChild(coordinator)
+        showSignIn()
     }
 }

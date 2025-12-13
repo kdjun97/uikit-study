@@ -8,8 +8,6 @@
 import UIKit
 
 class MyPageNavigationController: UINavigationController {
-    var onLogout: (() -> Void)?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         isNavigationBarHidden = true

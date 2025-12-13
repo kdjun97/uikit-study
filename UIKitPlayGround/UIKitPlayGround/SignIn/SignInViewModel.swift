@@ -13,13 +13,13 @@ final class SignInViewModel {
     }
     
     enum SignInOutput {
-        case onChangeMainFlow
+        case onChangeMain
     }
     
     func send(_ action: SignInAction) {
         switch action {
         case .buttonTapped:
-            onOutput?(.onChangeMainFlow)
+            onOutput?(.onChangeMain)
         }
     }
 

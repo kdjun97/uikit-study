@@ -10,7 +10,7 @@ import UIKit
 final class DetailViewController: UIViewController {
     private let headerLabel: UILabel = {
         let label = UILabel()
-        label.text = "Main Header"
+        label.text = "Detail Header"
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.textColor = .label
         label.textAlignment = .center

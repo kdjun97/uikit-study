@@ -29,10 +29,7 @@ private extension AppCoordinator {
         navigationController.isNavigationBarHidden = true
 
         let coordinator = RootCoordinator(navigationController: navigationController)
-        coordinator.onChangeMainFlow = { [weak self] in
-            guard let self = self else { return }
-            self.changeMainFlow()
-        }
+        coordinator.delegate = self
         
         self.rootCoordinator = coordinator
         addChild(coordinator)
@@ -50,18 +47,28 @@ private extension AppCoordinator {
         
         let mainTabBarController = MainTabBarController()
         let mainCoordinator = MainCoordinator(tabBarController: mainTabBarController)
+        mainCoordinator.delegate = self
 
-        mainCoordinator.onLogout = { [weak self, weak mainCoordinator] in
-            guard let self, let mainCoordinator else { return }
-            self.removeChild(mainCoordinator)
-            self.mainCoordinator = nil
-            self.showRoot(isSignInRoot: true)
-        }
-        
         self.mainCoordinator = mainCoordinator
         addChild(mainCoordinator)
 
         window.rootViewController = mainTabBarController
         mainCoordinator.start()
+    }
+}
+
+extension AppCoordinator: RootCoordinatorDelegate {
+    func onDidLogIn(_ coordinator: RootCoordinator) {
+        removeChild(coordinator)
+        rootCoordinator = nil
+        self.changeMainFlow()
+    }
+}
+
+extension AppCoordinator: MainCoordinatorDelegate {
+    func onDidLogout(_ coordinator: MainCoordinator) {
+        removeChild(coordinator)
+        mainCoordinator = nil
+        self.showRoot(isSignInRoot: true)
     }
 }

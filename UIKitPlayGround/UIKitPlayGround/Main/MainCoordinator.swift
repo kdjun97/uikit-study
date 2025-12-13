@@ -8,8 +8,8 @@
 import UIKit
 
 final class MainCoordinator: BaseCoordinator {
+    weak var delegate: MainCoordinatorDelegate?
     let tabBarController: MainTabBarController
-    var onLogout: (() -> Void)?
 
     init(tabBarController: MainTabBarController) {
         self.tabBarController = tabBarController
@@ -27,15 +27,7 @@ final class MainCoordinator: BaseCoordinator {
         
         let myPageNavigationController = MyPageNavigationController()
         let myPageCoordinator = MyPageCoordinator(navigationController: myPageNavigationController)
-        myPageCoordinator.onLogout = { [weak self, weak myPageCoordinator] in
-            guard let self else { return }
-            self.removeChild(homeCoordinator)
-            if let myPageCoordinator {
-                self.removeChild(myPageCoordinator)
-            }
-
-            self.onLogout?()
-        }
+        myPageCoordinator.delegate = self
 
         childCoordinators.append(myPageCoordinator)
         myPageCoordinator.start()
@@ -44,5 +36,16 @@ final class MainCoordinator: BaseCoordinator {
         myPageNavigationController.tabBarItem = UITabBarItem(title: "마이", image: UIImage(systemName: "person"), selectedImage: nil)
         
         self.tabBarController.setViewControllers([homeNavigationController, myPageNavigationController], animated: false)
+    }
+}
+
+protocol MainCoordinatorDelegate: AnyObject {
+    func onDidLogout(_ coordinator: MainCoordinator)
+}
+
+extension MainCoordinator: MyPageCoordinatorDelegate {
+    func onDidLogout(_ coordinator: MyPageCoordinator) {
+        removeChild(coordinator)
+        delegate?.onDidLogout(self)
     }
 }

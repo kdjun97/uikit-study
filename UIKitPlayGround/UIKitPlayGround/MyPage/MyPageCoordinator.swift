@@ -7,7 +7,7 @@
 
 final class MyPageCoordinator: BaseCoordinator {
     private let navigationController: MyPageNavigationController
-    var onLogout: (() -> Void)?
+    weak var delegate: MyPageCoordinatorDelegate?
     
     init(navigationController: MyPageNavigationController) {
         self.navigationController = navigationController
@@ -20,10 +20,14 @@ final class MyPageCoordinator: BaseCoordinator {
             guard let self = self else { return }
             switch output {
             case .onLogout:
-                self.onLogout?()
+                self.delegate?.onDidLogout(self)
             }
         }
 
-        navigationController.viewControllers = [viewController]
+        navigationController.setViewControllers([viewController], animated: false)
     }
+}
+
+protocol MyPageCoordinatorDelegate: AnyObject {
+    func onDidLogout(_ coordinator: MyPageCoordinator)
 }
