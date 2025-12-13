@@ -5,6 +5,9 @@ UI 구성 실험부터 특정 시나리오 기반 기능 검증까지 자유롭�
 
 # TODO  
 
+- [x] Task A  
+
+
 <details>
 <summary>Task A</summary><br>
 
