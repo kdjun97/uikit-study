@@ -14,9 +14,4 @@ class MyPageNavigationController: UINavigationController {
         super.viewDidLoad()
         isNavigationBarHidden = true
     }
-    
-    func start() {
-        let myPageViewController = MyPageViewController(onLogout: onLogout)
-        setViewControllers([myPageViewController], animated: false)
-    }
 }

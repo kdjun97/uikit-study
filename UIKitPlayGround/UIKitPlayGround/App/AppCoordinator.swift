@@ -7,47 +7,61 @@
 
 import UIKit
 
-final class AppCoordinator {
+final class AppCoordinator: BaseCoordinator {
     private let window: UIWindow
+    private var rootCoordinator: RootCoordinator?
+    private var mainCoordinator: MainCoordinator?
 
     init(window: UIWindow) {
         self.window = window
     }
     
-    func start() {
-        showRoot()
+    override func start() {
+        showRoot(isSignInRoot: false)
     }
 }
 
 private extension AppCoordinator {
-    func showRoot() {
-        let rootNavigationController = RootNavigationController()
-        rootNavigationController.onChangeMainFlow = { [weak self] in
-            self?.changeMainFlow()
-        }
-        window.rootViewController = rootNavigationController
+    func showRoot(isSignInRoot: Bool) {
+        mainCoordinator = nil
+        
+        let navigationController = UINavigationController()
+        navigationController.isNavigationBarHidden = true
 
-        rootNavigationController.start()
-    }
-    
-    func showSignInForRoot() {
-        let rootNavigationController = RootNavigationController()
-        rootNavigationController.onChangeMainFlow = { [weak self] in
-            self?.changeMainFlow()
+        let coordinator = RootCoordinator(navigationController: navigationController)
+        coordinator.onChangeMainFlow = { [weak self] in
+            guard let self = self else { return }
+            self.changeMainFlow()
         }
-        window.rootViewController = rootNavigationController
-
-        rootNavigationController.startWithSignIn()
+        
+        self.rootCoordinator = coordinator
+        addChild(coordinator)
+        
+        window.rootViewController = navigationController
+        if isSignInRoot {
+            coordinator.startWithSignIn()
+        } else {
+            coordinator.start()
+        }
     }
 
     func changeMainFlow() {
-        let mainTabBarController = MainTabBarController()
-        mainTabBarController.onChangeRootFlow = { [weak self] in
-            guard let self = self else { return }
-            showSignInForRoot()
-        }
-        window.rootViewController = mainTabBarController
+        rootCoordinator = nil
         
-        mainTabBarController.start()
+        let mainTabBarController = MainTabBarController()
+        let mainCoordinator = MainCoordinator(tabBarController: mainTabBarController)
+
+        mainCoordinator.onLogout = { [weak self, weak mainCoordinator] in
+            guard let self, let mainCoordinator else { return }
+            self.removeChild(mainCoordinator)
+            self.mainCoordinator = nil
+            self.showRoot(isSignInRoot: true)
+        }
+        
+        self.mainCoordinator = mainCoordinator
+        addChild(mainCoordinator)
+
+        window.rootViewController = mainTabBarController
+        mainCoordinator.start()
     }
 }

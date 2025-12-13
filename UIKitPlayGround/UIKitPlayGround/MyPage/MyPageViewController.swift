@@ -8,10 +8,10 @@
 import UIKit
 
 class MyPageViewController: UIViewController {
-    var onLogout: (() -> Void)?
+    private let viewModel: MyPageViewModel
     
-    init(onLogout: (() -> Void)? = nil) {
-        self.onLogout = onLogout
+    init(viewModel: MyPageViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,6 +58,6 @@ class MyPageViewController: UIViewController {
     }
     
     @objc private func logoutButtonTapped() {
-        onLogout?()
+        viewModel.send(.logoutButtonTapped)
     }
 }

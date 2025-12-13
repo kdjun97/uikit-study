@@ -1,31 +1,29 @@
 //
-//  RootNavigationController.swift
+//  RootCoordinator.swift
 //  UIKitPlayGround
 //
-//  Created by 김동준 on 12/9/25
+//  Created by 김동준 on 12/13/25
 //
 
 import UIKit
 
-class RootNavigationController: UINavigationController {
+final class RootCoordinator: BaseCoordinator {
+    private let navigationController: UINavigationController
     var onChangeMainFlow: (() -> Void)?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        isNavigationBarHidden = true
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
     
-    func start() {
+    override func start() {
         showSplash()
     }
     
     func startWithSignIn() {
         showSignIn()
     }
-}
-
-private extension RootNavigationController {
-    func showSplash() {
+    
+    private func showSplash() {
         let viewModel = SplashViewModel() // 나중에 DI
         let splashViewController = SplashViewController(viewModel: viewModel)
         
@@ -37,10 +35,10 @@ private extension RootNavigationController {
             }
         }
         
-        setViewControllers([splashViewController], animated: false)
+        navigationController.setViewControllers([splashViewController], animated: false)
     }
-
-    func showSignIn() {
+    
+    private func showSignIn() {
         let viewModel = SignInViewModel()
         let signInViewController = SignInViewController(viewModel: viewModel)
         
@@ -52,6 +50,6 @@ private extension RootNavigationController {
             }
         }
         
-        setViewControllers([signInViewController], animated: false)
+        navigationController.setViewControllers([signInViewController], animated: false)
     }
 }
