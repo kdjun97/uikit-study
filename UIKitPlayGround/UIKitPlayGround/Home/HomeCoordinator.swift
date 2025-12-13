@@ -19,12 +19,37 @@ final class HomeCoordinator: BaseCoordinator {
             guard let self = self else { return }
             switch output {
             case .onPushDetail:
-                let detailViewController = DetailViewController()
-    //            detailViewController.hidesBottomBarWhenPushed = true
-                navigationController.pushViewController(detailViewController, animated: true)
+                showDetail()
             }
         }
 
         navigationController.viewControllers = [homeViewController]
+    }
+    
+    private func showDetail() {
+        let viewModel = DetailViewModel()
+        let detailViewController = DetailViewController(viewModel: viewModel)
+        
+        viewModel.onOutput = { [weak self] output in
+            guard let self = self else { return }
+            switch output {
+            case .onPresentSheet:
+                self.presentSheet()
+            }
+        }
+//        detailViewController.hidesBottomBarWhenPushed = true
+        navigationController.pushViewController(detailViewController, animated: true)
+    }
+    
+    private func presentSheet() {
+        let sheetViewController = DetailSheetViewController()
+        sheetViewController.modalPresentationStyle = .pageSheet
+        
+        if let sheet = sheetViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        
+        navigationController.present(sheetViewController, animated: true)
     }
 }
