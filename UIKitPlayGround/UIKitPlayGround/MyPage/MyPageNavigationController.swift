@@ -12,4 +12,8 @@ class MyPageNavigationController: UINavigationController {
         super.viewDidLoad()
         isNavigationBarHidden = true
     }
+    
+    deinit {
+        print("❎ MyPageNavigationController deinit!")
+    }
 }

@@ -11,8 +11,13 @@ final class MyPageCoordinator: BaseCoordinator {
     
     init(navigationController: MyPageNavigationController) {
         self.navigationController = navigationController
+        print("⭕ MyPageCoordinator init!")
     }
     
+    deinit {
+        print("❎ MyPageCoordinator deinit!")
+    }
+
     override func start() {
         let viewModel = MyPageViewModel()
         let viewController = MyPageViewController(viewModel: viewModel)

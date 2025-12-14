@@ -12,4 +12,8 @@ final class DetailSheetViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
     }
+    
+    deinit {
+        print("❎ DetailSheetViewController deinit!")
+    }
 }

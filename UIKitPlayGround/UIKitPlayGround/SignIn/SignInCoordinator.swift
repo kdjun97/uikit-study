@@ -13,6 +13,11 @@ final class SignInCoordinator: BaseCoordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        print("⭕ SignInCoordinator init!")
+    }
+    
+    deinit {
+        print("❎ SignInCoordinator deinit!")
     }
     
     override func start() {

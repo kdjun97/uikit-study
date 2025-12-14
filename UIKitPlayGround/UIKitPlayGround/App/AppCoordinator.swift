@@ -14,6 +14,7 @@ final class AppCoordinator: BaseCoordinator {
 
     init(window: UIWindow) {
         self.window = window
+        print("⭕ AppCoordinator init!")
     }
     
     override func start() {

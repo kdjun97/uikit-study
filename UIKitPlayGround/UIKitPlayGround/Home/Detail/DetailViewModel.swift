@@ -12,6 +12,15 @@ final class DetailViewModel {
         case sheetButtonTapped
     }
     
+    init(onOutput: ((DetailOutput) -> Void)? = nil) {
+        self.onOutput = onOutput
+        print("⭕ DetailViewModel init!")
+    }
+    
+    deinit {
+        print("❎ DetailViewModel deinit!")
+    }
+
     enum DetailOutput {
         case onPresentSheet
     }

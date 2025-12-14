@@ -8,6 +8,15 @@
 final class SplashViewModel {
     var onOutput: ((SplashOutput) -> Void)?
     
+    deinit {
+        print("❎ SplashViewModel deinit!")
+    }
+    
+    init(onOutput: ((SplashOutput) -> Void)? = nil) {
+        self.onOutput = onOutput
+        print("⭕ SplashViewModel init!")
+    }
+    
     enum SplashAction {
         case buttonTapped
     }

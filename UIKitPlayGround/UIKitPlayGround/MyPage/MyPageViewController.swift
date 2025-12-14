@@ -10,9 +10,14 @@ import UIKit
 class MyPageViewController: UIViewController {
     private let viewModel: MyPageViewModel
     
+    deinit {
+        print("❎ MyPageViewController deinit!")
+    }
+
     init(viewModel: MyPageViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        print("⭕ MyPageViewController init!")
     }
     
     required init?(coder: NSCoder) {

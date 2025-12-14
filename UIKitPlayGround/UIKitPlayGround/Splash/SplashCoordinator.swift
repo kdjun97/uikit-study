@@ -13,6 +13,11 @@ final class SplashCoordinator: BaseCoordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        print("⭕ SplashCoordinator init!")
+    }
+    
+    deinit {
+        print("❎ SplashCoordinator deinit!")
     }
     
     override func start() {

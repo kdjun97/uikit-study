@@ -13,6 +13,11 @@ final class MainCoordinator: BaseCoordinator {
 
     init(tabBarController: MainTabBarController) {
         self.tabBarController = tabBarController
+        print("⭕ MainCoordinator init!")
+    }
+    
+    deinit {
+        print("❎ MainCoordinator deinit!")
     }
 
     override func start() {

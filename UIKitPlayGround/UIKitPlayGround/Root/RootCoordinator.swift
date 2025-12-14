@@ -13,6 +13,11 @@ final class RootCoordinator: BaseCoordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        print("⭕ RootCoordinator init!")
+    }
+    
+    deinit {
+        print("❎ RootCoordinator deinit!")
     }
     
     override func start() {

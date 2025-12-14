@@ -15,6 +15,10 @@ class HomeNavigationController: UINavigationController {
         isNavigationBarHidden = true
         interactivePopGestureRecognizer?.delegate = self
     }
+    
+    deinit {
+        print("❎ HomeNavigationController deinit!")
+    }
 }
 
 extension HomeNavigationController: UIGestureRecognizerDelegate {

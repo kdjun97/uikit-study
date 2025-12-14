@@ -10,9 +10,14 @@ import UIKit
 final class DetailViewController: UIViewController {
     private let viewModel: DetailViewModel
     
+    deinit {
+        print("❎ DetailViewController deinit!")
+    }
+
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        print("⭕ DetailViewController init!")
     }
     
     required init?(coder: NSCoder) {

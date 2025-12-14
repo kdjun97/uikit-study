@@ -9,10 +9,16 @@ import UIKit
 
 class SplashViewController: UIViewController {
     private let viewModel: SplashViewModel
+    
+    deinit {
+        print("❎ SplashViewController deinit!")
+    }
 
     init(viewModel: SplashViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        print("⭕ SplashViewController init!")
+
     }
     
     required init?(coder: NSCoder) {

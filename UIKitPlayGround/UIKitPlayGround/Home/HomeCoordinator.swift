@@ -10,8 +10,13 @@ final class HomeCoordinator: BaseCoordinator {
     
     init(navigationController: HomeNavigationController) {
         self.navigationController = navigationController
+        print("⭕ HomeCoordinator init!")
     }
     
+    deinit {
+        print("❎ HomeCoordinator deinit!")
+    }
+
     override func start() {
         let homeViewModel = HomeViewModel()
         let homeViewController = HomeViewController(viewModel: homeViewModel)
