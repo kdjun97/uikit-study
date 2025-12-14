@@ -5,14 +5,17 @@
 //  Created by 김동준 on 12/13/25
 //
 
-import UIKit
-
 final class SignInCoordinator: BaseCoordinator {
-    private let navigationController: UINavigationController
+    private let navigationController: BaseNavigationController
     weak var delegate: SignInCoordinatorDelegate?
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: BaseNavigationController) {
         self.navigationController = navigationController
+        print("⭕ SignInCoordinator init!")
+    }
+    
+    deinit {
+        print("❎ SignInCoordinator deinit!")
     }
     
     override func start() {

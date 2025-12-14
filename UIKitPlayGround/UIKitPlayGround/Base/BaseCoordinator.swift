@@ -5,8 +5,6 @@
 //  Created by 김동준 on 12/12/25
 //
 
-import UIKit
-
 protocol Coordinator: AnyObject {
     func start()
 }

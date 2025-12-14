@@ -8,6 +8,15 @@
 final class SignInViewModel {
     var onOutput: ((SignInOutput) -> Void)?
     
+    deinit {
+        print("❎ SignInViewModel deinit!")
+    }
+    
+    init(onOutput: ((SignInOutput) -> Void)? = nil) {
+        self.onOutput = onOutput
+        print("⭕ SignInViewModel init!")
+    }
+    
     enum SignInAction {
         case buttonTapped
     }

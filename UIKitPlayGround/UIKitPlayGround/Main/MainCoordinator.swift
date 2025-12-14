@@ -11,8 +11,13 @@ final class MainCoordinator: BaseCoordinator {
     weak var delegate: MainCoordinatorDelegate?
     let tabBarController: MainTabBarController
 
-    init(tabBarController: MainTabBarController) {
-        self.tabBarController = tabBarController
+    override init() {
+        self.tabBarController = MainTabBarController()
+        print("⭕ MainCoordinator init!")
+    }
+    
+    deinit {
+        print("❎ MainCoordinator deinit!")
     }
 
     override func start() {
@@ -20,22 +25,20 @@ final class MainCoordinator: BaseCoordinator {
     }
     
     func setupTabBar() {
-        let homeNavigationController = HomeNavigationController()
-        let homeCoordinator = HomeCoordinator(navigationController: homeNavigationController)
+        let homeCoordinator = HomeCoordinator()
         childCoordinators.append(homeCoordinator)
         homeCoordinator.start()
         
-        let myPageNavigationController = MyPageNavigationController()
-        let myPageCoordinator = MyPageCoordinator(navigationController: myPageNavigationController)
+        let myPageCoordinator = MyPageCoordinator()
         myPageCoordinator.delegate = self
 
         childCoordinators.append(myPageCoordinator)
         myPageCoordinator.start()
 
-        homeNavigationController.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house"), selectedImage: nil)
-        myPageNavigationController.tabBarItem = UITabBarItem(title: "마이", image: UIImage(systemName: "person"), selectedImage: nil)
+        homeCoordinator.navigationController.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house"), selectedImage: nil)
+        myPageCoordinator.navigationController.tabBarItem = UITabBarItem(title: "마이", image: UIImage(systemName: "person"), selectedImage: nil)
         
-        self.tabBarController.setViewControllers([homeNavigationController, myPageNavigationController], animated: false)
+        self.tabBarController.setViewControllers([homeCoordinator.navigationController, myPageCoordinator.navigationController], animated: false)
     }
 }
 

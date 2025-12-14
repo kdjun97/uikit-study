@@ -5,14 +5,17 @@
 //  Created by 김동준 on 12/13/25
 //
 
-import UIKit
-
 final class RootCoordinator: BaseCoordinator {
-    private let navigationController: UINavigationController
+    let navigationController: BaseNavigationController
     weak var delegate: RootCoordinatorDelegate?
     
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    override init() {
+        self.navigationController = BaseNavigationController()
+        print("⭕ RootCoordinator init!")
+    }
+    
+    deinit {
+        print("❎ RootCoordinator deinit!")
     }
     
     override func start() {

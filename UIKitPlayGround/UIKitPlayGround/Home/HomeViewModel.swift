@@ -8,6 +8,15 @@
 final class HomeViewModel {
     var onOutput: ((HomeOutput) -> Void)?
     
+    deinit {
+        print("❎ HomeViewModel deinit!")
+    }
+    
+    init(onOutput: ((HomeOutput) -> Void)? = nil) {
+        self.onOutput = onOutput
+        print("⭕ HomeViewModel init!")
+    }
+
     enum HomeAction {
         case buttonTapped
     }

@@ -6,6 +6,7 @@ UI 구성 실험부터 특정 시나리오 기반 기능 검증까지 자유롭�
 # TODO  
 
 - [x] Task A  
+- [x] Task B  
 
 
 <details>
@@ -20,6 +21,24 @@ Navigation 구조 설계 및 구현
 이후 진행할 다음 프로젝트에서 이를 Multi Module 구조로 확장하여 화면 전환/라우팅 설계, 모듈 간 의존 관계 설정, 특정 기능 검증까지 이어갈 예정이다.  
 
 구조는 아래와 같이 개발 예정.  
+
+```  
+Root  
+└─ Splash
+└─ SignIn (로그인 버튼)
+└─ Main
+    └─ Home 
+        └─ Detail
+    └─ MyPage (로그아웃 버튼)
+```  
+
+</details>  
+
+
+<details>
+<summary>Task B</summary><br>
+
+아래 구조에서 Detail 페이지에서 Sheet가 나올 수 있도록 개발.  
 
 ```  
 Root  
