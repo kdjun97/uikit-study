@@ -5,13 +5,11 @@
 //  Created by 김동준 on 12/13/25
 //
 
-import UIKit
-
 final class SplashCoordinator: BaseCoordinator {
-    private let navigationController: UINavigationController
+    private let navigationController: BaseNavigationController
     weak var delegate: SplashCoordinatorDelegate?
     
-    init(navigationController: UINavigationController) {
+    init(navigationController: BaseNavigationController) {
         self.navigationController = navigationController
         print("⭕ SplashCoordinator init!")
     }

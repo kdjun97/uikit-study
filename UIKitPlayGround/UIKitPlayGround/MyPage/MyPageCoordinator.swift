@@ -6,11 +6,11 @@
 //
 
 final class MyPageCoordinator: BaseCoordinator {
-    private let navigationController: MyPageNavigationController
+    let navigationController: BaseNavigationController
     weak var delegate: MyPageCoordinatorDelegate?
     
-    init(navigationController: MyPageNavigationController) {
-        self.navigationController = navigationController
+    override init() {
+        self.navigationController = BaseNavigationController()
         print("⭕ MyPageCoordinator init!")
     }
     

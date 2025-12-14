@@ -38,7 +38,7 @@ class HomeViewController: UIViewController {
         label.text = "바닥 텍스트입니다"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.textColor = .white
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

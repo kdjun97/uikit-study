@@ -6,10 +6,10 @@
 //
 
 final class HomeCoordinator: BaseCoordinator {
-    private let navigationController: HomeNavigationController
+    let navigationController: BaseNavigationController
     
-    init(navigationController: HomeNavigationController) {
-        self.navigationController = navigationController
+    override init() {
+        self.navigationController = BaseNavigationController()
         print("⭕ HomeCoordinator init!")
     }
     
