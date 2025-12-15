@@ -8,6 +8,15 @@
 final class MyPageViewModel {
     var onOutput: ((MyPageOutput) -> Void)?
     
+    deinit {
+        print("❎ MyPageViewModel deinit!")
+    }
+    
+    init(onOutput: ((MyPageOutput) -> Void)? = nil) {
+        self.onOutput = onOutput
+        print("⭕ MyPageViewModel init!")
+    }
+    
     enum MyPageAction {
         case logoutButtonTapped
     }

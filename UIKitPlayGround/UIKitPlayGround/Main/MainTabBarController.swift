@@ -13,4 +13,8 @@ class MainTabBarController: UITabBarController {
         self.view.backgroundColor = .clear
         tabBar.backgroundColor = .white
     }
+    
+    deinit {
+        print("❎ MainTabBarController deinit!")
+    }
 }

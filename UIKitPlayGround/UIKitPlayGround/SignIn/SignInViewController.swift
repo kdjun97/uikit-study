@@ -10,9 +10,14 @@ import UIKit
 class SignInViewController: UIViewController {
     private let viewModel: SignInViewModel
     
+    deinit {
+        print("❎ SignInViewController deinit!")
+    }
+    
     init(viewModel: SignInViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        print("⭕ SignInViewController init!")
     }
     
     required init?(coder: NSCoder) {

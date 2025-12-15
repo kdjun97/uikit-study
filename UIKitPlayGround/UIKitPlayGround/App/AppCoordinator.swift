@@ -14,6 +14,7 @@ final class AppCoordinator: BaseCoordinator {
 
     init(window: UIWindow) {
         self.window = window
+        print("⭕ AppCoordinator init!")
     }
     
     override func start() {
@@ -24,17 +25,14 @@ final class AppCoordinator: BaseCoordinator {
 private extension AppCoordinator {
     func showRoot(isSignInRoot: Bool) {
         mainCoordinator = nil
-        
-        let navigationController = UINavigationController()
-        navigationController.isNavigationBarHidden = true
 
-        let coordinator = RootCoordinator(navigationController: navigationController)
+        let coordinator = RootCoordinator()
         coordinator.delegate = self
         
         self.rootCoordinator = coordinator
         addChild(coordinator)
         
-        window.rootViewController = navigationController
+        window.rootViewController = coordinator.navigationController
         if isSignInRoot {
             coordinator.startWithSignIn()
         } else {
@@ -45,14 +43,13 @@ private extension AppCoordinator {
     func changeMainFlow() {
         rootCoordinator = nil
         
-        let mainTabBarController = MainTabBarController()
-        let mainCoordinator = MainCoordinator(tabBarController: mainTabBarController)
+        let mainCoordinator = MainCoordinator()
         mainCoordinator.delegate = self
 
         self.mainCoordinator = mainCoordinator
         addChild(mainCoordinator)
 
-        window.rootViewController = mainTabBarController
+        window.rootViewController = mainCoordinator.tabBarController
         mainCoordinator.start()
     }
 }
