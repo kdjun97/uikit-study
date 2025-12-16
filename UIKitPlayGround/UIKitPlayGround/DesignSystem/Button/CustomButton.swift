@@ -23,8 +23,6 @@ final public class CustomButton: UIButton {
         
         super.init(frame: .zero)
         self.configuration = config
-        
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {

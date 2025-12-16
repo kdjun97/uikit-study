@@ -7,6 +7,7 @@ UI 구성 실험부터 특정 시나리오 기반 기능 검증까지 자유롭�
 
 - [x] Task A  
 - [x] Task B  
+- [ ] Task C  
 
 
 <details>
@@ -34,7 +35,6 @@ Root
 
 </details>  
 
-
 <details>
 <summary>Task B</summary><br>
 
@@ -49,5 +49,23 @@ Root
         └─ Detail
     └─ MyPage (로그아웃 버튼)
 ```  
+
+</details>  
+
+<details>
+<summary>Task C</summary><br>
+
+**SnapKit을 활용한 UI 개발**
+
+UIKit 기반 UI 개발에 익숙해지기 위한 과제로,
+AutoLayout을 보다 간결하게 사용할 수 있는 SnapKit을 활용해 여러 View를 직접 구성해본다.
+
+- UIKit + SnapKit을 사용하여 화면 UI 구현
+- UI 구성은 자유 주제
+  - 즉흥적으로 구성해도 무방
+  - Figma에 있는 간단한 UI를 참고하여 구현도 ok
+- 복잡한 인터랙션이나 고난이도 레이아웃은 지양하고, 기본적인 UI 구성과 AutoLayout 연습에 목적을 둔다
+
+목표: SnapKit 문법과 AutoLayout 개념에 익숙해지고, UIKit UI 구성에 대한 감각을 익히는 것
 
 </details>  
