@@ -19,16 +19,23 @@ final class SignInViewModel {
     
     enum SignInAction {
         case buttonTapped
+        case kakaoButtonTapped
+        case appleButtonTapped
     }
     
     enum SignInOutput {
         case onChangeMain
+        case onPushSignInDetail
     }
     
     func send(_ action: SignInAction) {
         switch action {
         case .buttonTapped:
             onOutput?(.onChangeMain)
+        case .kakaoButtonTapped:
+            onOutput?(.onPushSignInDetail)
+        case .appleButtonTapped:
+            onOutput?(.onPushSignInDetail)
         }
     }
 
