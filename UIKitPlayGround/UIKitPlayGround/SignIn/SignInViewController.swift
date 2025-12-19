@@ -37,31 +37,83 @@ class SignInViewController: UIViewController {
         backgroundColor: .black,
         foregroundColor: .white
     )
+    
+    private let kakaoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.icKakao, for: .normal)
+        
+        return button
+    }()
+    
+    private let appleButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.icApple, for: .normal)
+        
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .blue
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
 
         setupLayout()
+        setBottomButtonLayout()
+        setupAction()
     }
     
     private func setupLayout() {
         view.addSubview(label)
         view.addSubview(button)
         
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        label.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(view.safeAreaLayoutGuide)
+        }
         
-        NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20)
-        ])
+        button.snp.makeConstraints {
+            $0.top.equalTo(label).offset(40)
+            $0.centerX.equalTo(label)
+        }
+    }
+    
+    func setBottomButtonLayout() {
+        let container = UIView()
+        view.addSubview(container)
+        
+        container.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(40)
+        }
+        
+        container.addSubview(kakaoButton)
+        container.addSubview(appleButton)
+
+        kakaoButton.snp.makeConstraints {
+            $0.leading.top.bottom.equalToSuperview()
+        }
+
+        appleButton.snp.makeConstraints {
+            $0.leading.equalTo(kakaoButton.snp.trailing).offset(48)
+            $0.trailing.top.bottom.equalToSuperview()
+        }
+    }
+    
+    private func setupAction() {
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        kakaoButton.addAction(
+            UIAction { [weak self] _ in
+                guard let self = self else { return }
+                self.viewModel.send(.kakaoButtonTapped)
+            }, for: .touchUpInside
+        )
+        appleButton.addTarget(self, action: #selector(appleButtonTapped), for: .touchUpInside)
     }
     
     @objc private func buttonTapped() {
         viewModel.send(.buttonTapped)
+    }
+    
+    @objc private func appleButtonTapped() {
+        viewModel.send(.appleButtonTapped)
     }
 }

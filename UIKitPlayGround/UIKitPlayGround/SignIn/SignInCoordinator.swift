@@ -26,10 +26,26 @@ final class SignInCoordinator: BaseCoordinator {
             switch output {
             case .onChangeMain:
                 self.delegate?.onDidLogIn(self)
+            case .onPushSignInDetail:
+                showSignInDetail()
             }
         }
 
         navigationController.setViewControllers([viewController], animated: false)
+    }
+    
+    private func showSignInDetail() {
+        let viewModel = SignInDetailViewModel()
+        let detailViewController = SignInDetailViewController(viewModel: viewModel)
+        
+        viewModel.onOutput = { [weak self] output in
+            guard let self = self else { return }
+            switch output {
+            case .onPop:
+                navigationController.popViewController(animated: true)
+            }
+        }
+        navigationController.pushViewController(detailViewController, animated: true)
     }
 }
 
