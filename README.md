@@ -8,6 +8,7 @@ UI 구성 실험부터 특정 시나리오 기반 기능 검증까지 자유롭�
 - [x] Task A  
 - [x] Task B  
 - [x] Task C  
+- [ ] Task D  
 
 
 <details>
@@ -67,5 +68,16 @@ AutoLayout을 보다 간결하게 사용할 수 있는 SnapKit을 활용해 여�
 - 복잡한 인터랙션이나 고난이도 레이아웃은 지양하고, 기본적인 UI 구성과 AutoLayout 연습에 목적을 둔다
 
 목표: SnapKit 문법과 AutoLayout 개념에 익숙해지고, UIKit UI 구성에 대한 감각을 익히는 것
+
+</details>  
+
+<details>
+<summary>Task D</summary><br>
+
+**UIKit 기반 Custom Alert 표시 시나리오 및 기능 구현**
+
+- Alert의 실제 표시는 `UIViewController`에서 담당
+- Alert를 띄워야 한다는 판단은 `ViewModel`에서 결정
+- 하나의 View에서 여러 디자인의 Custom Alert를 유연하게 표시하는 구조를 목표로 구현
 
 </details>  
