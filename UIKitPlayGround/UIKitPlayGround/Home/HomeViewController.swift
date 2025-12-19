@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SnapKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     private let viewModel: HomeViewModel
     
     init(viewModel: HomeViewModel) {
@@ -27,7 +28,6 @@ class HomeViewController: UIViewController {
     private let label: UILabel = {
         let label = UILabel()
         label.text = "HomeViewController"
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
 
         return label
@@ -39,11 +39,10 @@ class HomeViewController: UIViewController {
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let button = CustomButton(
+    private let detailButton = CustomButton(
         title: "Go To Detail",
         backgroundColor: .red,
         foregroundColor: .white
@@ -53,34 +52,38 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .cyan
         setupLayout()
-        
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        setAction()
     }
     
     private func setupLayout() {
         view.addSubview(label)
-        view.addSubview(button)
+        view.addSubview(detailButton)
         view.addSubview(bottomLabel)
 
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        label.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(view.safeAreaLayoutGuide)
+        }
         
-        NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20)
-        ])
+        detailButton.snp.makeConstraints {
+            $0.top.equalTo(label.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+        }
         
-        NSLayoutConstraint.activate([
-            bottomLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bottomLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            bottomLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 0),
-            bottomLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: 0)
-        ])
+        bottomLabel.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.centerX.equalToSuperview()
+        }
+    }
+}
+
+private extension HomeViewController {
+    func setAction() {
+        detailButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    @objc private func buttonTapped() {
+    @objc func buttonTapped() {
         viewModel.send(.buttonTapped)
     }
+
 }
