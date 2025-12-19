@@ -11,13 +11,14 @@ final public class CustomButton: UIButton {
     public init(
         title: String,
         backgroundColor: UIColor,
-        foregroundColor: UIColor
+        foregroundColor: UIColor,
+        edgeInsets: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(
+            top: 10, leading: 10, bottom: 10, trailing: 10
+        )
     ) {
         var config = UIButton.Configuration.filled()
         config.title = title
-        config.contentInsets = NSDirectionalEdgeInsets(
-            top: 10, leading: 10, bottom: 10, trailing: 10
-        )
+        config.contentInsets = edgeInsets
         config.baseBackgroundColor = backgroundColor
         config.baseForegroundColor = foregroundColor
         
