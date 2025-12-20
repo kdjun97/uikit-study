@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import SnapKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     private let viewModel: HomeViewModel
+    private var currentAlert: CustomAlert?
     
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -27,7 +29,6 @@ class HomeViewController: UIViewController {
     private let label: UILabel = {
         let label = UILabel()
         label.text = "HomeViewController"
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
 
         return label
@@ -39,48 +40,138 @@ class HomeViewController: UIViewController {
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let button = CustomButton(
+    private let detailButton = CustomButton(
         title: "Go To Detail",
         backgroundColor: .red,
         foregroundColor: .white
+    )
+    
+    private let tipAlertButton = CustomButton(
+        title: "Show Tip Alert",
+        backgroundColor: .orange,
+        foregroundColor: .white
+    )
+    
+    private let stopEditingAlertButton = CustomButton(
+        title: "Show Stop Editing Alert",
+        backgroundColor: .black,
+        foregroundColor: .white
+    )
+    
+    private let tipAlert = CustomAlert(
+        title: "[꿀팁] 테스트 꿀팁!",
+        contents: "어떤게 꿀팁이 될 수 있을지 잘 모르겠지만 일단은 적어봄.",
+        primaryButtonTitle: "닫기",
+        isDismissable: true
+    )
+    
+    private let stopEditingAlert = CustomAlert(
+        title: "편집을 중단할까요?",
+        contents: "편집을 중단하시면 지금까지 수정한 내용이 모두 삭제됩니다.",
+        primaryButtonTitle: "닫기",
+        secondaryButtonTitle: "확인",
+        isDismissable: false
     )
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .cyan
         setupLayout()
-        
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        setAction()
     }
     
     private func setupLayout() {
         view.addSubview(label)
-        view.addSubview(button)
+        view.addSubview(detailButton)
         view.addSubview(bottomLabel)
+        view.addSubview(tipAlertButton)
+        view.addSubview(stopEditingAlertButton)
 
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        label.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(view.safeAreaLayoutGuide)
+        }
         
-        NSLayoutConstraint.activate([
-            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20)
-        ])
+        detailButton.snp.makeConstraints {
+            $0.top.equalTo(label.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+        }
         
-        NSLayoutConstraint.activate([
-            bottomLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            bottomLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            bottomLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 0),
-            bottomLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: 0)
-        ])
+        bottomLabel.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.centerX.equalToSuperview()
+        }
+        
+        tipAlertButton.snp.makeConstraints {
+            $0.top.equalTo(detailButton.snp.bottom).offset(48)
+            $0.centerX.equalToSuperview()
+        }
+
+        stopEditingAlertButton.snp.makeConstraints {
+            $0.top.equalTo(tipAlertButton.snp.bottom).offset(48)
+            $0.centerX.equalToSuperview()
+        }
+    }
+}
+
+private extension HomeViewController {
+    func setAction() {
+        detailButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        tipAlertButton.addTarget(self, action: #selector(tipAlertButtonTapped), for: .touchUpInside)
+        stopEditingAlertButton.addTarget(self, action: #selector(stopEditingAlertButtonTapped), for: .touchUpInside)
     }
     
-    @objc private func buttonTapped() {
+    @objc func buttonTapped() {
         viewModel.send(.buttonTapped)
     }
+    
+    @objc func tipAlertButtonTapped() {
+        viewModel.send(.alertButtonTapped(.tip))
+    }
+    
+    @objc func stopEditingAlertButtonTapped() {
+        viewModel.send(.alertButtonTapped(.stopEditing))
+    }
+}
+
+extension HomeViewController {
+    public func renderAlert(_ alertCase: HomeAlertCase?) {
+        guard let alertCase else {
+            dismissAlert()
+            return
+        }
+
+        switch alertCase {
+        case .tip:
+            let alert = tipAlert
+            presentAlert(alert)
+        case .stopEditing:
+            let alert = stopEditingAlert
+            presentAlert(alert)
+        }
+    }
+    
+    private func presentAlert(_ alert: CustomAlert) {
+        guard let window = UIApplication.keyWindow else { return }
+        
+        currentAlert = alert
+        alert.delegate = self
+        window.addSubview(alert)
+        alert.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    private func dismissAlert() {
+        currentAlert?.removeFromSuperview()
+    }
+}
+
+extension HomeViewController: CustomAlertDelegate {
+    func alertDidTapPrimary(_ alert: CustomAlert) {}
+    func alertDidTapSecondary(_ alert: CustomAlert) {}
+    func alertDidDismiss(_ alert: CustomAlert) {}
 }
