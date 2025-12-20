@@ -20,11 +20,14 @@ final class HomeCoordinator: BaseCoordinator {
     override func start() {
         let homeViewModel = HomeViewModel()
         let homeViewController = HomeViewController(viewModel: homeViewModel)
-        homeViewModel.onOutput = { [weak self] output in
+        homeViewModel.onOutput = { [weak self, weak homeViewController] output in
             guard let self = self else { return }
             switch output {
             case .onPushDetail:
                 showDetail()
+            case .showAlert(let alertCase):
+                guard let viewController = homeViewController else { return }
+                viewController.renderAlert(alertCase)
             }
         }
 
