@@ -9,7 +9,7 @@ UI 구성 실험부터 특정 시나리오 기반 기능 검증까지 자유롭�
 - [x] Task B  
 - [x] Task C  
 - [x] Task D  
-- [ ] ReactorKit 전환
+- [x] ReactorKit 전환
 
 <details>
 <summary>Task A</summary><br>
@@ -97,5 +97,8 @@ ReactorKit은 단순한 MVVM의 확장이 아니라,
 
 또한, **TCA(The Composable Architecture)**에 익숙한 개발 경험을 바탕으로  
 ReactorKit을 도입했을 때, 단방향 아키텍처가 실제 개발 및 유지보수에 어떤 이점을 제공하는지 개발하기엔 어떨지 검증해보고자 한다.  
+
+모든 페이지를 다 migration하는 것 보다는, **SignIn 하나만 진행**하고, 이후 있을 몇 개의 뷰들만 Reactor로 진행하여,  
+본 프로젝트에서는 MVVM 방식도 써보고, ReactorKit도 써보며 연습.  
 
 </details>  

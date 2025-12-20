@@ -6,16 +6,18 @@
 //
 
 import UIKit
+import ReactorKit
+import RxCocoa
 
-class SignInViewController: UIViewController {
-    private let viewModel: SignInViewModel
+class SignInViewController: UIViewController, View {
+    var disposeBag = DisposeBag()
     
     deinit {
         print("❎ SignInViewController deinit!")
     }
     
-    init(viewModel: SignInViewModel) {
-        self.viewModel = viewModel
+    init(reactor: SignInReactor) {
+        defer { self.reactor = reactor }
         super.init(nibName: nil, bundle: nil)
         print("⭕ SignInViewController init!")
     }
@@ -58,7 +60,6 @@ class SignInViewController: UIViewController {
 
         setupLayout()
         setBottomButtonLayout()
-        setupAction()
     }
     
     private func setupLayout() {
@@ -98,22 +99,20 @@ class SignInViewController: UIViewController {
         }
     }
     
-    private func setupAction() {
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        kakaoButton.addAction(
-            UIAction { [weak self] _ in
-                guard let self = self else { return }
-                self.viewModel.send(.kakaoButtonTapped)
-            }, for: .touchUpInside
-        )
-        appleButton.addTarget(self, action: #selector(appleButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func buttonTapped() {
-        viewModel.send(.buttonTapped)
-    }
-    
-    @objc private func appleButtonTapped() {
-        viewModel.send(.appleButtonTapped)
+    func bind(reactor: SignInReactor) {
+        button.rx.tap
+            .map { SignInReactor.Action.mainbuttonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        kakaoButton.rx.tap
+            .map { SignInReactor.Action.kakaoButtonTapped }
+            .bind(to: reactor.action )
+            .disposed(by: disposeBag)
+        
+        appleButton.rx.tap
+            .map { SignInReactor.Action.appleButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 }
