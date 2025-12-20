@@ -5,9 +5,12 @@
 //  Created by 김동준 on 12/13/25
 //
 
+import ReactorKit
+
 final class SignInCoordinator: BaseCoordinator {
     private let navigationController: BaseNavigationController
     weak var delegate: SignInCoordinatorDelegate?
+    private var disposeBag = DisposeBag()
     
     init(navigationController: BaseNavigationController) {
         self.navigationController = navigationController
@@ -19,17 +22,22 @@ final class SignInCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        let viewModel = SignInViewModel()
-        let viewController = SignInViewController(viewModel: viewModel)
-        viewModel.onOutput = { [weak self] output in
-            guard let self = self else { return }
-            switch output {
-            case .onChangeMain:
-                self.delegate?.onDidLogIn(self)
-            case .onPushSignInDetail:
-                showSignInDetail()
-            }
-        }
+        let reactor = SignInReactor()
+        let viewController = SignInViewController(reactor: reactor)
+        
+        reactor.route
+            .subscribe(
+                onNext: { [weak self ] route in
+                    guard let self = self else { return }
+                    switch route {
+                    case .changeMain:
+                        self.delegate?.onDidLogIn(self)
+                    case .pushSignInDetail:
+                        showSignInDetail()
+                    }
+                }
+            )
+            .disposed(by: disposeBag)
 
         navigationController.setViewControllers([viewController], animated: false)
     }
