@@ -24,15 +24,6 @@ class MyPageViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let label: UILabel = {
-        let label = UILabel()
-        label.text = "MyPageViewController"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
-
-        return label
-    }()
-    
     private let logoutButton = CustomButton(
         title: "Logout",
         backgroundColor: .red,
@@ -48,18 +39,12 @@ class MyPageViewController: UIViewController {
     }
     
     private func setupLayout() {
-        view.addSubview(label)
         view.addSubview(logoutButton)
         
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoutButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 20)
-        ])
+        logoutButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
     }
     
     @objc private func logoutButtonTapped() {
