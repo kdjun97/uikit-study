@@ -10,6 +10,7 @@ UI 구성 실험부터 특정 시나리오 기반 기능 검증까지 자유롭�
 - [x] Task C  
 - [x] Task D  
 - [x] ReactorKit 전환
+- [x] Task E
 
 <details>
 <summary>Task A</summary><br>
@@ -100,5 +101,16 @@ ReactorKit을 도입했을 때, 단방향 아키텍처가 실제 개발 및 유�
 
 모든 페이지를 다 migration하는 것 보다는, **SignIn 하나만 진행**하고, 이후 있을 몇 개의 뷰들만 Reactor로 진행하여,  
 본 프로젝트에서는 MVVM 방식도 써보고, ReactorKit도 써보며 연습.  
+
+</details>  
+
+<details>
+<summary>Task E 개발</summary><br>
+
+이번 Task에서는 ReactorKit을 도입하며 기존 MyPage 화면을 개선한다.  
+
+1. SnapKit을 사용하도록 기존 AutoLayout 코드 정리
+2. MVVM 기반 MyPage 화면을 ReactorKit 아키텍처로 migration
+3. UI를 확장하고, 일부 요소에 상호작용 기능 추가
 
 </details>  
