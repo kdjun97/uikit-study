@@ -10,7 +10,7 @@ UI 구성 실험부터 특정 시나리오 기반 기능 검증까지 자유롭�
 - [x] Task C  
 - [x] Task D  
 - [x] ReactorKit 전환
-- [ ] Task E
+- [x] Task E
 
 <details>
 <summary>Task A</summary><br>
