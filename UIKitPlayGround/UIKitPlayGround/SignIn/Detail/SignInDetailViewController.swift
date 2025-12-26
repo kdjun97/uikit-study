@@ -74,6 +74,7 @@ class SignInDetailViewController: UIViewController {
         textField.clipsToBounds = true
         textField.layer.cornerRadius = 12
         textField.backgroundColor = .gray1
+        textField.returnKeyType = .done
 
         return textField
     }()
@@ -113,14 +114,19 @@ class SignInDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        setUI()
         setupLayout()
         setAction()
         bind()
+        setupKeyboardDismissEvent()
     }
 }
 
 private extension SignInDetailViewController {
+    func setUI() {
+        view.backgroundColor = .systemBackground
+    }
+    
     func setupLayout() {
         setupNavigationBar()
         setupGuideText()
@@ -196,7 +202,7 @@ private extension SignInDetailViewController {
     func setupBottomButton() {
         view.addSubview(bottomButton)
         bottomButton.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(20)
+            $0.bottom.equalTo(view.keyboardLayoutGuide.snp.top).offset(-20)
             $0.leading.trailing.equalToSuperview().inset(20)
         }
     }
